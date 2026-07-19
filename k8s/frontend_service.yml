@@ -1,0 +1,16 @@
+# configure frontend service
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+  namespace: todo-app
+spec:
+  selector:
+    app: frontend-deployment
+  port:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
+
+# nodeport opens port 30080 on every node so you can access app from outside

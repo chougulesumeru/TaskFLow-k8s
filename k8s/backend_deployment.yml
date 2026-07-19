@@ -1,0 +1,52 @@
+# configure backend deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: todo-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-deployment
+  template:
+    metadata:
+      labels:
+        app: backend-deployment
+    spec:
+      containers:
+        - name: backend
+          image: sumeruc/todo-backend:v1
+          ports:
+            - containerPort: 5000
+          env:
+            valueFrom:
+              configMapRef:
+                - name: app-config
+          livelinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+
+          readinessProbe:
+            httpGet:
+              path: /heath
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+#  3 replicas always maintaine even me pod crashes or traffic spikes
+# liveliness probe restart stuck pod.
+# readiness probe stops traffic untill pod is truely ready.
+# resource prevent extra usage.
