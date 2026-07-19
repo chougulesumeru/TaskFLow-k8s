@@ -12,10 +12,10 @@ spec:
 
   minReplicas: 3
   maxReplicas: 10
-  metrices:
-    - types: Resources
+  metrics:                    # fixed: was "metrices" (typo — correct field is "metrics")
+    - type: Resource          # fixed: was "types: Resources" — correct is "type" (singular) with value "Resource"
       resource:
-        - name: cpu
-          target:
-            type: Utilization
-            averageUtilization: 70
+        name: cpu             # fixed: was "- name: cpu" inside a list — resource is an object, not a list
+        target:
+          type: Utilization
+          averageUtilization: 70

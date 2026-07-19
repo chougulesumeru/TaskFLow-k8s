@@ -6,7 +6,7 @@ metadata:
   name: todo-ingress
   namespace: todo-app
   annotations:
-    nginx.ingress.kubernetes.io/revision-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /   # fixed: was "revision-target" — correct annotation is "rewrite-target"
 spec:
   rules:
     - host: todoapp.local

@@ -6,11 +6,12 @@ metadata:
   name: frontend-svc
   namespace: todo-app
 spec:
+  type: NodePort              # fixed: type must be declared when using nodePort
   selector:
     app: frontend-deployment
-  port:
+  ports:                      # fixed: was "port" (singular) — must be "ports" (plural)
     - port: 80
       targetPort: 80
       nodePort: 30080
 
-# nodeport opens port 30080 on every node so you can access app from outside
+# nodePort opens port 30080 on every node so you can access the app from outside

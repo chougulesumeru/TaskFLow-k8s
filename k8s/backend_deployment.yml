@@ -20,11 +20,10 @@ spec:
           image: sumeruc/todo-backend:v1
           ports:
             - containerPort: 5000
-          env:
-            valueFrom:
-              configMapRef:
-                - name: app-config
-          livelinessProbe:
+          envFrom:                        # fixed: was "env: valueFrom: configMapRef" — wrong structure; envFrom is correct for loading all keys from a ConfigMap
+            - configMapRef:
+                name: app-config
+          livenessProbe:                  # fixed: was "livelinessProbe" (typo — correct field is livenessProbe)
             httpGet:
               path: /health
               port: 5000
@@ -33,7 +32,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /heath
+              path: /health              # fixed: was "/heath" (typo)
               port: 5000
             initialDelaySeconds: 5
             periodSeconds: 10
@@ -46,7 +45,7 @@ spec:
               cpu: "500m"
               memory: "512Mi"
 
-#  3 replicas always maintaine even me pod crashes or traffic spikes
-# liveliness probe restart stuck pod.
-# readiness probe stops traffic untill pod is truely ready.
-# resource prevent extra usage.
+#  3 replicas always maintained even if pod crashes or traffic spikes
+# liveness probe restarts stuck pods.
+# readiness probe stops traffic until pod is truly ready.
+# resources prevent excess usage.

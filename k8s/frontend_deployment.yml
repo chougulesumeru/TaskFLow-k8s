@@ -15,7 +15,7 @@ spec:
         app: frontend-deployment
     spec:
       containers:
-        - name: frontned
+        - name: frontend              # fixed: was "frontned" (typo)
           image: sumeruc/todo-frontend:v1
           ports:
             - containerPort: 80
