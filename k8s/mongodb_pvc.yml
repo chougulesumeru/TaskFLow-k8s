@@ -5,8 +5,8 @@ metadata:
   name: mongo-pvc
   namespace: todo-app
 spec:
-  accessMode:
-    - ReadWriteOnly
+  accessModes:              # fixed: was "accessMode" (must be plural)
+    - ReadWriteOnce         # fixed: "ReadWriteOnly" is not valid, correct value is "ReadWriteOnce"
   resources:
     requests:
       storage: 1Gi

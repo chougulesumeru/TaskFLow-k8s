@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        app: mongo-deployement
+        app: mongo-deployment # fixed typo: "mongo-deployement" → "mongo-deployment"
     spec:
       containers:
         - name: mongo
@@ -21,20 +21,33 @@ spec:
           ports:
             - containerPort: 27017
           env:
-            - name: MONGODB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_USERNAME # fixed: correct env var name for mongo:6 image
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
                   key: mongo-username
-            - name: MONGODB_ROOT_PASSWORD
+            - name: MONGO_INITDB_ROOT_PASSWORD # fixed: correct env var name for mongo:6 image
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
                   key: mongo-password
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
           volumeMounts:
             - name: mongo-vol
               mountPath: /data/db
       volumes:
         - name: mongo-vol
-          PersistentVolumeClaim:
+          persistentVolumeClaim: # fixed: was "PersistentVolumeClaim" (wrong casing)
             claimName: mongo-pvc
+
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "database"
+          effect: "NoSchedule"
