@@ -1,0 +1,11 @@
+# configmap :- non-secret setting (stores non-sensitive data)
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: todo-app
+
+data:
+  BACKEND_URL: "http://backend-service:5000"
+  DB_NAME: "tododb"

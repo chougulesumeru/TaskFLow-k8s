@@ -1,0 +1,17 @@
+# mongodb service :- stable network and ip addresses
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-svc
+  namespace: todo-app
+spec:
+  selector:
+    app: mongo-svc
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: tcp
+
+# default type:- clusterIP (only reachable inside cluster)
+# perfect for databases , we never expose DB to internate.

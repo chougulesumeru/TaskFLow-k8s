@@ -1,0 +1,40 @@
+# mongoDB deployment + PVC (storage)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  namespace: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-deployment
+  template:
+    metadata:
+      labels:
+        app: mongo-deployement
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:6
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGODB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-username
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: mongo-password
+          volumeMounts:
+            - name: mongo-vol
+              mountPath: /data/db
+      volumes:
+        - name: mongo-vol
+          PersistentVolumeClaim:
+            claimName: mongo-pvc

@@ -1,0 +1,14 @@
+# persistent volume claim :- PVC (storage)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+  namespace: todo-app
+spec:
+  accessMode:
+    - ReadWriteOnly
+  resources:
+    requests:
+      storage: 1Gi
+
+# PVC :- reserves 1GB storage room that survives pod restarts.

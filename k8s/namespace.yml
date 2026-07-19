@@ -1,0 +1,9 @@
+# namespace :- separate our project space
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: todo-app
+
+# like creating a dedicated folder so our resources
+# dont mix with other project.
